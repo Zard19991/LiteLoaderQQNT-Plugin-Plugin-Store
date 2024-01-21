@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-21 21:32:34
+ * @LastEditTime: 2024-01-21 23:13:19
  */
 // 运行在 Electron 主进程 下的插件入口
 const { ipcMain, app, net, shell } = require("electron");
@@ -61,11 +61,18 @@ async function install(url, slug) {
                     fs.mkdirSync(pathname, { recursive: true });
                     continue;
                 }
-                // 创建文件
-                if (entry.isFile) {
+                // 创建文件 有时不会先创建目录
+                try {
+                    if (entry.isFile) {
+                        await zip.extract(entry.name, pathname);
+                        continue;
+                    }
+                } catch (error) {
+                    fs.mkdirSync(pathname.slice(0, pathname.lastIndexOf('/')), { recursive: true });
                     await zip.extract(entry.name, pathname);
-                    continue;
+                    continue
                 }
+
             }
         }
         await zip.close();
@@ -73,7 +80,7 @@ async function install(url, slug) {
     } catch (error) {
         console.log(error)
         // 安装失败删除文件
-        fs.rmSync(plugin_path, { recursive: true, force: true });
+        //fs.rmSync(plugin_path, { recursive: true, force: true });
         if (error.message.includes('Bad archive')) {
             return "安装包异常，可能是作者未正确配置";
         }
