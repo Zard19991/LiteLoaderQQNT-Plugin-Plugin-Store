@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-19 16:55:53
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-21 19:26:36
+ * @LastEditTime: 2024-01-21 20:46:43
  */
 // 导入工具函数
 const { createApp, reactive } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
@@ -25,19 +25,20 @@ async function setting_vue(node) {
                   openWeb(url);
                 },
                 async install(repository, slug, index) {
-                    plugins[index].install = "安装中"
-                    plugins[index].installStatus = true
-                    const url = repository.file
-                        ? `https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
-                        : `https://github.com/Night-stars-1/LiteLoaderQQNT-Plugin-QQPromote/archive/refs/tags/${repository.release.tag}.zip`;
-                    plugins[index].install = await install(url, slug)
+                  console.log(repository)
+                  plugins[index].install = "安装中"
+                  plugins[index].installStatus = true
+                  const url = repository.file
+                      ? `https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
+                      : `https://github.com/${repository.repo}/archive/refs/tags/${repository.release.tag}.zip`;
+                  plugins[index].install = await install(url, slug)
                 },
                 async update(repository, slug, index) {
                   plugins[index].install = "更新中"
                   plugins[index].installStatus = true
                   const url = repository.file
                       ? `https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
-                      : `https://github.com/Night-stars-1/LiteLoaderQQNT-Plugin-QQPromote/archive/refs/tags/${repository.release.tag}.zip`;
+                      : `https://github.com/${repository.repo}/archive/refs/tags/${repository.release.tag}.zip`;
                   plugins[index].install = await update(url, slug)
                 },
                 toAuthor(link) {
