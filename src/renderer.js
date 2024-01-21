@@ -1,9 +1,10 @@
 /*
  * @Date: 2024-01-21 14:57:17
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-21 21:02:31
+ * @LastEditTime: 2024-01-21 23:42:34
  */
 import { setting_vue, plugins } from "./renderer/setVue.js"
+import "./renderer/api.js"
 
 async function onSettingWindowCreated(view){
     const plugin_path = LiteLoader.plugins.pluginStore.path.plugin;
@@ -20,6 +21,7 @@ async function onSettingWindowCreated(view){
     
     document.querySelectorAll(".nav-item.liteloader").forEach(node => {
         if (node.textContent === "插件商店") {
+            node.classList.add("store")
             setting_vue(node)
         }
     })

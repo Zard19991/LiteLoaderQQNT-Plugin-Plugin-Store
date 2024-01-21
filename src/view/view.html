@@ -1,6 +1,6 @@
 <section class="plugin-list" id="pluginStore">
   <div class="wrap" v-for="(manifest, index) in plugins">
-    <div class="vertical-list-item">
+    <div class="vertical-list-item" :id="manifest.slug">
       <img class="thumbnail" :src="manifest.icon" />
       <div class="info">
         <h2 class="name">{{manifest.name}}</h2>

@@ -1,10 +1,10 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-21 23:13:19
+ * @LastEditTime: 2024-01-22 01:18:00
  */
 // 运行在 Electron 主进程 下的插件入口
-const { ipcMain, app, net, shell } = require("electron");
+const { ipcMain, app, shell, BrowserWindow } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const http = require("http");
@@ -158,6 +158,16 @@ function onLoad(plugin) {
     ipcMain.on("LiteLoader.pluginStore.openWeb", (event, ...message) =>
         openWeb(...message)
     );
+    ipcMain.on("LiteLoader.pluginStore.createWin", (event, message) => {
+        setTimeout(() => {
+            BrowserWindow.getAllWindows().forEach(window => {
+                if (window.webContents.getURL().includes("#/setting/settings/common")) {
+                    window.webContents.send('message-main', message);
+                }
+            });
+        }, 1000);
+    });
 }
+
 
 onLoad()
