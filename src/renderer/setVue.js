@@ -27,7 +27,7 @@ async function setting_vue(node) {
                 async install(repository, slug, index) {
                   plugins[index].install = "安装中"
                   plugins[index].installStatus = true
-                  const url = repository.file
+                  const url = repository.release.file
                       ? `https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
                       : `https://github.com/${repository.repo}/archive/refs/tags/${repository.release.tag}.zip`;
                   plugins[index].install = await install(url, slug)
@@ -35,7 +35,7 @@ async function setting_vue(node) {
                 async update(repository, slug, index) {
                   plugins[index].install = "更新中"
                   plugins[index].installStatus = true
-                  const url = repository.file
+                  const url = repository.release.file
                       ? `https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
                       : `https://github.com/${repository.repo}/archive/refs/tags/${repository.release.tag}.zip`;
                   plugins[index].install = await update(url, slug)
