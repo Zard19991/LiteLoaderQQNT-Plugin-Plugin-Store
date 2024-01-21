@@ -25,7 +25,6 @@ async function setting_vue(node) {
                   openWeb(url);
                 },
                 async install(repository, slug, index) {
-                  console.log(repository)
                   plugins[index].install = "安装中"
                   plugins[index].installStatus = true
                   const url = repository.file
