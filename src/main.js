@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-21 20:52:21
+ * @LastEditTime: 2024-01-21 21:32:34
  */
 // 运行在 Electron 主进程 下的插件入口
 const { ipcMain, app, net, shell } = require("electron");
@@ -52,9 +52,10 @@ async function install(url, slug) {
         fs.mkdirSync(plugin_path, { recursive: true });
         const zip = new StreamZip.async({ file: cache_file_path });
         const entries = await zip.entries();
+        const isFolder = !entries.hasOwnProperty("manifest.json") // 判断是否需要保留一级目录 true为不保留
         for (const entry of Object.values(entries)) {
             if (!entry.name.includes(".github")) {
-                const pathname = `${plugin_path}/${entry.name.split('/').slice(1).join('/')}`;
+                const pathname = `${plugin_path}/${isFolder? entry.name.split('/').slice(1).join('/') : entry.name}`;
                 // 创建目录
                 if (entry.isDirectory) {
                     fs.mkdirSync(pathname, { recursive: true });

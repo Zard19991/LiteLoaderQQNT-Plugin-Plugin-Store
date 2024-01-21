@@ -1,10 +1,9 @@
 /*
  * @Date: 2024-01-21 14:57:17
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-21 20:57:57
+ * @LastEditTime: 2024-01-21 21:02:31
  */
 import { setting_vue, plugins } from "./renderer/setVue.js"
-const { ref } = await import('./cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
 
 async function onSettingWindowCreated(view){
     const plugin_path = LiteLoader.plugins.pluginStore.path.plugin;
@@ -32,7 +31,9 @@ async function onSettingWindowCreated(view){
         if (data.repository.release.tag === "latest") {
             data.repository.release.tag = (await (await fetch(`https://api.github.com/repos/${plugin.repo}/releases/latest`)).json()).tag_name
         }
-        data.icon = data.icon? `https://raw.githubusercontent.com/${data.repository.repo}/${data.repository.branch}${data.icon.replace(".", "")}` : "https://raw.githubusercontent.com/Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store/master/icon.png"
+        data.icon = data.icon
+                    ? `https://raw.githubusercontent.com/${data.repository.repo}/${data.repository.branch}${data.icon.replace(".", "")}` 
+                    : "https://raw.githubusercontent.com/Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store/master/icon.png"
         data.install = "安装";
         data.update = "更新";
         plugins.push(data)
