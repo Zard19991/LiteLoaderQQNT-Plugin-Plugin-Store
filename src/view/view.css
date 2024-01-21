@@ -70,7 +70,7 @@
 .pluginStore .plugin-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 0px 20px;
+    gap: 0px 10px;
 }
 
 /* 插件列表条目-默认 */

@@ -1,59 +1,57 @@
-<div class="wrap" id="pluginStore">
-  <section class="plugin-list">
-    <div class="wrap" v-for="(manifest, index) in plugins">
-      <div class="vertical-list-item">
-        <img class="thumbnail" :src="manifest.icon" />
-        <div class="info">
-          <h2 class="name">{{manifest.name}}</h2>
-          <p class="secondary-text description">{{manifest.description}}</p>
-        </div>
-        <div class="ops-btns">
-          <button
-            class="q-button q-button--small q-button--secondary"
-            @click="details(manifest.repository.repo)"
-          >
-            详情
-          </button>
-          <button
-            class="q-button q-button--small q-button--secondary"
-            v-if="!LiteLoader?.plugins?.[manifest.slug]?.manifest?.version"
-            :disabled="manifest.install!=='安装'"
-            @click="install(manifest.repository, manifest.slug, index)"
-          >
-            {{manifest.install}}
-          </button>
-          <button
-            class="q-button q-button--small q-button--secondary"
-            v-else-if="LiteLoader.plugins[manifest.slug]?.manifest?.version >= manifest.version"
-          >
-            已安装
-          </button>
-          <button
-            class="q-button q-button--small q-button--secondary"
-            v-else
-            @click="update(manifest.repository, manifest.slug, index)"
-            :disabled="manifest.update!=='更新'"
-          >
-            {{manifest.update}}
-          </button>
-        </div>
+<section class="plugin-list" id="pluginStore">
+  <div class="wrap" v-for="(manifest, index) in plugins">
+    <div class="vertical-list-item">
+      <img class="thumbnail" :src="manifest.icon" />
+      <div class="info">
+        <h2 class="name">{{manifest.name}}</h2>
+        <p class="secondary-text description">{{manifest.description}}</p>
       </div>
-      <hr class="horizontal-dividing-line" />
-      <div class="vertical-list-item">
-        <p class="secondary-text extra-information">
-          <span>类型：{{manifest.type}}</span>
-          <span>平台：{{manifest.platform}}</span>
-          <span>版本：{{manifest.version}}</span>
-          <span
-            >开发：
-            <a
-              href="javascript:void(0);"
-              @click="toAuthor(manifest.authors[0].link)"
-              >{{manifest.authors[0].name}}</a
-            >
-          </span>
-        </p>
+      <div class="ops-btns">
+        <button
+          class="q-button q-button--small q-button--secondary"
+          @click="details(manifest.repository.repo)"
+        >
+          详情
+        </button>
+        <button
+          class="q-button q-button--small q-button--secondary"
+          v-if="!LiteLoader?.plugins?.[manifest.slug]?.manifest?.version"
+          :disabled="manifest.install!=='安装'"
+          @click="install(manifest.repository, manifest.slug, index)"
+        >
+          {{manifest.install}}
+        </button>
+        <button
+          class="q-button q-button--small q-button--secondary"
+          v-else-if="LiteLoader.plugins[manifest.slug]?.manifest?.version >= manifest.version"
+        >
+          已安装
+        </button>
+        <button
+          class="q-button q-button--small q-button--secondary"
+          v-else
+          @click="update(manifest.repository, manifest.slug, index)"
+          :disabled="manifest.update!=='更新'"
+        >
+          {{manifest.update}}
+        </button>
       </div>
     </div>
-  </section>
-</div>
+    <hr class="horizontal-dividing-line" />
+    <div class="vertical-list-item">
+      <p class="secondary-text extra-information">
+        <span>类型：{{manifest.type}}</span>
+        <span>平台：{{manifest.platform}}</span>
+        <span>版本：{{manifest.version}}</span>
+        <span
+          >开发：
+          <a
+            href="javascript:void(0);"
+            @click="toAuthor(manifest.authors[0].link)"
+            >{{manifest.authors[0].name}}</a
+          >
+        </span>
+      </p>
+    </div>
+  </div>
+</section>
