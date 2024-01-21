@@ -15,8 +15,7 @@
         "repo": "Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store",
         "branch": "master",
         "release": {
-            "tag": "v1.0.0",
-            "file": "v1.0.0.zip"
+            "tag": "v1.0.0"
         }
     },
     "platform": [

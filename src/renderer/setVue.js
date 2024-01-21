@@ -1,10 +1,16 @@
 /*
  * @Date: 2024-01-19 16:55:53
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-21 17:43:27
+ * @LastEditTime: 2024-01-21 19:16:50
  */
 // 导入工具函数
 const { createApp, reactive } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
+const install = pluginStore.install
+const uninstall = pluginStore.uninstall
+const update = pluginStore.update
+const restart = pluginStore.restart
+const openWeb = pluginStore.openWeb
+
 const plugins = reactive([])
 
 async function setting_vue(node) {
@@ -13,23 +19,38 @@ async function setting_vue(node) {
     node.addEventListener("click", async () => {
         if (!document.querySelector("#pluginStore")?.__vue_app__) {
             const app = createApp({
-                methods: {
-                    details() {
-                        console.log('触发了 details 方法');
-                    },
-                    install() {
-                        console.log('触发了 install 方法');
-                    },
-                    toAuthor(link) {
-                        console.log(link)
-                    }
+              methods: {
+                details(repo) {
+                  const url = `https://github.com/${repo}`;
+                  openWeb(url);
                 },
-                setup() {
-                    return {
-                        plugins
-                    }
-                }
-            })
+                async install(repository, slug, index) {
+                    plugins[index].install = "安装中"
+                    plugins[index].installStatus = true
+                    const url = repository.file
+                        ? `https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
+                        : `https://github.com/Night-stars-1/LiteLoaderQQNT-Plugin-QQPromote/archive/refs/tags/${repository.release.tag}.zip`;
+                    plugins[index].install = (await install(url, slug))? "安装成功" : "安装失败"
+                },
+                async update(repository, slug, index) {
+                  plugins[index].install = "更新中"
+                  plugins[index].installStatus = true
+                  const url = repository.file
+                      ? `https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
+                      : `https://github.com/Night-stars-1/LiteLoaderQQNT-Plugin-QQPromote/archive/refs/tags/${repository.release.tag}.zip`;
+                  plugins[index].install = (await update(url, slug))? "更新成功" : "更新失败"
+                },
+                toAuthor(link) {
+                  openWeb(link);
+                },
+              },
+              setup() {
+                return {
+                  plugins,
+                  LiteLoader
+                };
+              },
+            });
             app.mount('#pluginStore')
         }
     })

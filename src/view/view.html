@@ -8,8 +8,10 @@
           <p class="secondary-text description">{{manifest.description}}</p>
         </div>
         <div class="ops-btns">
-          <button class="q-button q-button--small q-button--secondary" @click="details">详情</button>
-          <button class="q-button q-button--small q-button--secondary" @click="install">安装</button>
+          <button class="q-button q-button--small q-button--secondary" @click="details(manifest.repository.repo)">详情</button>
+          <button class="q-button q-button--small q-button--secondary" v-if="!LiteLoader?.plugins?.[manifest.slug]?.manifest?.version" @click="install(manifest.repository, manifest.slug, index)">{{manifest.install}}</button>
+          <button class="q-button q-button--small q-button--secondary" v-else-if="LiteLoader.plugins[manifest.slug]?.manifest?.version >= manifest.version">已安装</button>
+          <button class="q-button q-button--small q-button--secondary" v-else @click="update(manifest.repository, manifest.slug, index)">{{manifest.update}}</button>
         </div>
       </div>
       <hr class="horizontal-dividing-line" />
