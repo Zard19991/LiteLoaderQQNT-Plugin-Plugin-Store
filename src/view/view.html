@@ -8,10 +8,34 @@
           <p class="secondary-text description">{{manifest.description}}</p>
         </div>
         <div class="ops-btns">
-          <button class="q-button q-button--small q-button--secondary" @click="details(manifest.repository.repo)">详情</button>
-          <button class="q-button q-button--small q-button--secondary" v-if="!LiteLoader?.plugins?.[manifest.slug]?.manifest?.version" @click="install(manifest.repository, manifest.slug, index)">{{manifest.install}}</button>
-          <button class="q-button q-button--small q-button--secondary" v-else-if="LiteLoader.plugins[manifest.slug]?.manifest?.version >= manifest.version">已安装</button>
-          <button class="q-button q-button--small q-button--secondary" v-else @click="update(manifest.repository, manifest.slug, index)">{{manifest.update}}</button>
+          <button
+            class="q-button q-button--small q-button--secondary"
+            @click="details(manifest.repository.repo)"
+          >
+            详情
+          </button>
+          <button
+            class="q-button q-button--small q-button--secondary"
+            v-if="!LiteLoader?.plugins?.[manifest.slug]?.manifest?.version"
+            :disabled="manifest.install!=='安装'"
+            @click="install(manifest.repository, manifest.slug, index)"
+          >
+            {{manifest.install}}
+          </button>
+          <button
+            class="q-button q-button--small q-button--secondary"
+            v-else-if="LiteLoader.plugins[manifest.slug]?.manifest?.version >= manifest.version"
+          >
+            已安装
+          </button>
+          <button
+            class="q-button q-button--small q-button--secondary"
+            v-else
+            @click="update(manifest.repository, manifest.slug, index)"
+            :disabled="manifest.update!=='更新'"
+          >
+            {{manifest.update}}
+          </button>
         </div>
       </div>
       <hr class="horizontal-dividing-line" />
@@ -20,8 +44,13 @@
           <span>类型：{{manifest.type}}</span>
           <span>平台：{{manifest.platform}}</span>
           <span>版本：{{manifest.version}}</span>
-          <span>开发：
-            <a href="javascript:void(0);" @click="toAuthor(manifest.authors[0].link)">{{manifest.authors[0].name}}</a>
+          <span
+            >开发：
+            <a
+              href="javascript:void(0);"
+              @click="toAuthor(manifest.authors[0].link)"
+              >{{manifest.authors[0].name}}</a
+            >
           </span>
         </p>
       </div>

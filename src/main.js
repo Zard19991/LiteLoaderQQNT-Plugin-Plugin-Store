@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-21 19:18:48
+ * @LastEditTime: 2024-01-21 19:35:25
  */
 // 运行在 Electron 主进程 下的插件入口
 const { ipcMain, app, net, shell } = require("electron");
@@ -68,12 +68,15 @@ async function install(url, slug) {
             }
         }
         await zip.close();
-        return true;
+        return "安装成功";
     } catch (error) {
+        console.log(error)
         // 安装失败删除文件
         fs.rmSync(plugin_path, { recursive: true, force: true });
-        console.log(error)
-        return false;
+        if (error.message.includes('Bad archive')) {
+            return "安装包异常，可能是作者未正确配置";
+        }
+        return "安装失败";
     }
 }
 
@@ -103,13 +106,13 @@ async function uninstall(slug, update_mode = false) {
 async function update(url, slug) {
     // 先卸载
     if (!(await uninstall(slug, true))) {
-        return false;
+        return "更新失败";
     }
     // 后安装
     if (!(await install(url, slug))) {
-        return false;
+        return "更新失败";
     }
-    return true;
+    return "更新成功";
 }
 
 async function restart() {
