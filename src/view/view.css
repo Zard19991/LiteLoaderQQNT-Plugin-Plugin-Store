@@ -1,0 +1,374 @@
+/**************/
+/* 列表控制区域 */
+/**************/
+
+
+/* 高级选项按钮 */
+.pluginStore .list-ctl .adv-ops-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+    border-radius: 4px;
+}
+
+/* 高级选项按钮-鼠标效果 */
+.pluginStore .list-ctl .adv-ops-btn:hover {
+    background-color: var(--overlay_hover);
+}
+
+/* 高级选项按钮-激活效果 */
+.pluginStore .list-ctl .adv-ops-btn.is-active {
+    background-color: var(--overlay_active);
+}
+
+/* 高级选项按钮-图标 */
+.pluginStore .list-ctl .adv-ops-btn .icon {
+    width: 1em;
+    height: 1em;
+    transform: rotate(-180deg);
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    transition-property: transform;
+}
+
+/* 高级选项按钮-图标收起 */
+.pluginStore .list-ctl .adv-ops-btn .icon.is-fold {
+    transform: rotate(0deg);
+}
+
+/* 选择框容器 */
+.pluginStore .list-ctl .ops-selects {
+    display: flex;
+    gap: 8px;
+}
+
+/* 搜索框 */
+.pluginStore .list-ctl .search-input {
+    align-self: normal;
+    flex: 1;
+    border-radius: 4px;
+    margin-right: 16px;
+    transition: all 100ms ease-out;
+}
+
+/* 搜索框-聚焦 */
+.pluginStore .list-ctl .search-input:focus {
+    padding-left: 5px;
+    background-color: var(--overlay_active);
+}
+
+
+/**************/
+/* 插件列表区域 */
+/**************/
+
+
+/* 插件列表 */
+.pluginStore .plugin-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px 20px;
+}
+
+/* 插件列表条目-默认 */
+.pluginStore .plugin-list .wrap {
+    flex-basis: 100%;
+}
+
+/* 插件列表条目-单列 */
+.pluginStore .plugin-list.single .wrap {
+    flex-basis: 100%;
+}
+
+/* 插件列表条目-双列 */
+.pluginStore .plugin-list.double .wrap {
+    flex-basis: calc(50% - 10px);
+}
+
+/* 插件缩略图 */
+.pluginStore .plugin-list .thumbnail {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+}
+
+/* 插件信息容器 */
+.pluginStore .plugin-list .info {
+    flex: 1;
+    align-self: start;
+    margin: 0px 16px;
+}
+
+/* 插件名字 */
+.pluginStore .plugin-list .info .name {
+    font-size: 14px;
+    font-weight: var(--font-bold);
+    display: -webkit-box;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
+/* 插件描述 */
+.pluginStore .plugin-list .info .description {
+    display: -webkit-box;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+/* 插件按钮容器 */
+.pluginStore .plugin-list .ops-btns {
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+/* 插件按钮 */
+.pluginStore .plugin-list .ops-btns .q-button {
+    cursor: pointer;
+    margin: unset;
+}
+
+/* 插件附加信息 */
+.pluginStore .plugin-list .extra-information {
+    margin: unset;
+}
+
+/* 插件附加信息 */
+.pluginStore .plugin-list .extra-information span {
+    margin-right: 12px;
+}
+
+/* 插件附加信息 */
+.pluginStore .plugin-list .extra-information a {
+    color: var(--text-link);
+}
+
+.pluginStore .plugin-list .extra-information a:hover {
+    color: var(--hover-link);
+}
+
+.pluginStore .plugin-list .extra-information a:active {
+    color: var(--press-link);
+}
+
+
+/***********/
+/* 松散模式 */
+/***********/
+
+
+.pluginStore .plugin-list.loose .wrap {
+    padding: 0px 16px;
+}
+
+.pluginStore .plugin-list.loose .vertical-list-item {
+    margin: 16px 0px;
+}
+
+/* 插件缩略图 */
+.pluginStore .plugin-list.loose .thumbnail {
+    width: 56px;
+    height: 56px;
+}
+
+.pluginStore .plugin-list.loose .info {
+    margin: 0px 16px;
+}
+
+/* 插件描述 */
+.pluginStore .plugin-list.loose .info .description {
+    margin-top: 4px;
+}
+
+/* 插件按钮容器 */
+.pluginStore .plugin-list.loose .ops-btns {
+    gap: 8px;
+}
+
+/* 插件附加信息 */
+.pluginStore .plugin-list.loose .extra-information span {
+    margin-right: 12px;
+}
+
+
+/***********/
+/* 紧凑模式 */
+/***********/
+
+
+.pluginStore .plugin-list.compact .wrap {
+    padding: 0px 8px;
+}
+
+.pluginStore .plugin-list.compact .vertical-list-item {
+    margin: 8px 0px;
+}
+
+/* 插件缩略图 */
+.pluginStore .plugin-list.compact .thumbnail {
+    width: 52px;
+    height: 52px;
+}
+
+.pluginStore .plugin-list.compact .info {
+    margin: 0px 8px;
+}
+
+/* 插件描述 */
+.pluginStore .plugin-list.compact .info .description {
+    margin-top: 0px;
+}
+
+/* 插件按钮容器 */
+.pluginStore .plugin-list.compact .ops-btns {
+    gap: 4px;
+}
+
+/* 插件附加信息 */
+.pluginStore .plugin-list.compact .extra-information span {
+    margin-right: 6px;
+}
+
+
+
+/* 旧样式 */
+/* 外边距 */
+.pluginStore .plugin-config-view {
+    margin: 20px;
+}
+
+/* 每节的标题 */
+.pluginStore h1 {
+    color: var(--text_primary);
+    font-weight: var(--font-bold);
+    font-size: min(var(--font_size_3), 18px);
+    line-height: min(var(--line_height_3), 24px);
+    padding: 0px 16px;
+    margin-bottom: 8px;
+}
+
+.pluginStore .wrap {
+    /* Linux样式兼容：--fg_white */
+    background-color: var(--fill_light_primary, var(--fg_white));
+    border-radius: 8px;
+    font-size: min(var(--font_size_3), 18px);
+    line-height: min(var(--line_height_3), 24px);
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 0px 16px;
+}
+
+.pluginStore .wrap .title {
+    cursor: pointer;
+    font-size: min(var(--font_size_3), 18px);
+    line-height: min(var(--line_height_3), 24px);
+}
+
+.pluginStore .wrap .title .icon {
+    width: 1em;
+    height: 1em;
+    transform: rotate(-180deg);
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    transition-property: transform;
+}
+
+.pluginStore .wrap .title .icon.is-fold {
+    transform: rotate(0deg);
+}
+
+/* 纵向列表条目 */
+.pluginStore .vertical-list-item {
+    margin: 12px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+/* 水平分割线 */
+.pluginStore .horizontal-dividing-line {
+    border: unset;
+    margin: unset;
+    height: 1px;
+    background-color: rgba(127, 127, 127, 0.15);
+}
+
+/* 纵向分割线 */
+.pluginStore .vertical-dividing-line {
+    border: unset;
+    margin: unset;
+    width: 1px;
+    background-color: rgba(127, 127, 127, 0.15);
+}
+
+
+
+/* 按钮布局 */
+.pluginStore .ops-btns {
+    display: flex;
+}
+
+/* 副文本 */
+.pluginStore .secondary-text {
+    color: var(--text_secondary);
+    font-size: min(var(--font_size_2), 16px);
+    line-height: min(var(--line_height_2), 22px);
+    margin-top: 4px;
+}
+
+
+
+/* 隐藏 */
+.pluginStore .hidden {
+    display: none !important;
+}
+
+/* 禁用 */
+.pluginStore .disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+
+
+/* 选择框按钮-文本 */
+.pluginStore .q-pulldown-menu-button .content {
+    width: 80px;
+}
+
+/* 选择框按钮-图标 */
+.pluginStore .q-pulldown-menu-button .icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* 选择框选项菜单 */
+.pluginStore .q-context-menu {
+    z-index: 4000;
+    margin-top: 5px;
+    width: 122px;
+}
+
+/* 选择框选项菜单-图标 */
+.pluginStore .q-context-menu .icon {
+    display: none;
+    width: 1em;
+    height: 1em;
+}
+
+/* 选择框选项菜单-选择后图标 */
+.pluginStore .q-context-menu .selected .icon {
+    display: block !important;
+}

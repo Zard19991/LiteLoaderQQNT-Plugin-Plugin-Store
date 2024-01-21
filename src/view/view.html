@@ -1,0 +1,28 @@
+<div class="wrap" id="pluginStore">
+  <section class="plugin-list">
+    <div class="wrap" v-for="(manifest, index) in plugins">
+      <div class="vertical-list-item">
+        <img class="thumbnail" :src="manifest.icon" />
+        <div class="info">
+          <h2 class="name">{{manifest.name}}</h2>
+          <p class="secondary-text description">{{manifest.description}}</p>
+        </div>
+        <div class="ops-btns">
+          <button class="q-button q-button--small q-button--secondary" @click="details">详情</button>
+          <button class="q-button q-button--small q-button--secondary" @click="install">安装</button>
+        </div>
+      </div>
+      <hr class="horizontal-dividing-line" />
+      <div class="vertical-list-item">
+        <p class="secondary-text extra-information">
+          <span>类型：{{manifest.type}}</span>
+          <span>平台：{{manifest.platform}}</span>
+          <span>版本：{{manifest.version}}</span>
+          <span>开发：
+            <a href="javascript:void(0);" @click="toAuthor(manifest.authors[0].link)">{{manifest.authors[0].name}}</a>
+          </span>
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
