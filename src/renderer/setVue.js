@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-19 16:55:53
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 18:43:17
+ * @LastEditTime: 2024-01-22 20:12:19
  */
 // 导入工具函数
 const { createApp, reactive, ref, watch } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
@@ -27,20 +27,20 @@ async function setting_vue(node) {
                   openWeb(url);
                 },
                 async install(repository, slug, index) {
-                  plugins[index].install = "安装中"
-                  plugins[index].installStatus = true
+                  this.plugins[index].install = "安装中"
+                  this.plugins[index].installStatus = true
                   const url = repository.release.file
                       ? `${fastestUrl.value}https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
                       : `${fastestUrl.value}https://github.com/${repository.repo}/archive/refs/tags/${repository.release.tag}.zip`;
-                  plugins[index].install = await install(url, slug)
+                  this.plugins[index].install = await install(url, slug)
                 },
                 async update(repository, slug, index) {
-                  plugins[index].update = "更新中"
-                  plugins[index].installStatus = true
+                  this.plugins[index].update = "更新中"
+                  this.plugins[index].installStatus = true
                   const url = repository.release.file
                       ? `${fastestUrl.value}https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
                       : `${fastestUrl.value}https://github.com/${repository.repo}/archive/refs/tags/${repository.release.tag}.zip`;
-                  plugins[index].update = await update(url, slug)
+                    this.plugins[index].update = await update(url, slug)
                 },
                 toAuthor(link) {
                   openWeb(link);
