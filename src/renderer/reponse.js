@@ -1,13 +1,20 @@
 /*
  * @Date: 2024-01-22 16:57:38
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 17:45:24
+ * @LastEditTime: 2024-01-22 19:56:25
  */
-async function measureSpeed(urls) {
+
+/**
+ * 返回最快的响应时间的url
+ * @param {Object} urls 
+ * @param {String} testUrl 
+ * @returns {Object}
+ */
+async function measureSpeed(urls, testUrl) {
     const requests = urls.map(async (url) => {
       const start = performance.now();
       try {
-        const response = await fetch(`${url}https://raw.githubusercontent.com/LiteLoaderQQNT/Plugin-List/v4/plugins.json`);
+        const response = await fetch(url+testUrl);
         const data = await response.json();
         const end = performance.now();
         return { url, responseTime: end - start, data: data };

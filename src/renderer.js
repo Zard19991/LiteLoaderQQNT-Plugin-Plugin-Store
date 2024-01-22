@@ -1,16 +1,18 @@
 /*
  * @Date: 2024-01-21 14:57:17
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 19:31:54
+ * @LastEditTime: 2024-01-22 19:59:35
  */
 import { setting_vue, plugins, gPlugins, fastestUrl } from "./renderer/setVue.js"
 import { pluginsLoad } from "./renderer/api.js"
-import { measureSpeed } from "./renderer/measureSpeed.js"
+import { measureSpeed } from "./renderer/reponse.js"
 
 async function fetchData(plugin) {
     const data = await (await fetch(`${fastestUrl.value}https://raw.githubusercontent.com/${plugin.repo}/${plugin.branch}/manifest.json`)).json();
     if (data.repository.release.tag === "latest") {
-      data.repository.release.tag = (await (await fetch(`https://api.github.com/repos/${plugin.repo}/releases/latest`)).json()).tag_name
+        const urlsToTest = ['https://api.nn.ci/github/', 'https://api-cf.nn.ci/github/', 'https://api.xhofe.top/github/', 'https://api.github.com/'];
+        const fastest = await measureSpeed(urlsToTest, `repos/${plugin.repo}/releases/latest`)
+        data.repository.release.tag = fastest.tag_name
     }
     data.icon = data.icon
                 ? `${fastestUrl.value}https://raw.githubusercontent.com/${data.repository.repo}/${data.repository.branch}${data.icon.replace(".", "")}` 
@@ -41,7 +43,7 @@ async function onSettingWindowCreated(view){
         }
     })
     const urlsToTest = ['https://mirror.ghproxy.com/', 'https://ghproxy.net/', 'https://moeyy.cn/gh-proxy/'];
-    const fastest = await measureSpeed(urlsToTest)
+    const fastest = await measureSpeed(urlsToTest, 'https://raw.githubusercontent.com/LiteLoaderQQNT/Plugin-List/v4/plugins.json')
     fastestUrl.value = fastest.url;
     const pluginsData = fastest.data;
     Promise.all(pluginsData.map(fetchData)).then(() => {
