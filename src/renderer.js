@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:17
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 21:16:45
+ * @LastEditTime: 2024-01-22 21:54:36
  */
 import { setting_vue, plugins, gPlugins, fastestUrl } from "./renderer/setVue.js"
 import { pluginsLoad } from "./renderer/api.js"
@@ -42,7 +42,7 @@ async function onSettingWindowCreated(view){
             setting_vue(node)
         }
     })
-    const urlsToTest = ['https://mirror.ghproxy.com/', 'https://ghproxy.net/', 'https://moeyy.cn/gh-proxy/'];
+    const urlsToTest = ['https://mirror.ghproxy.com/', 'https://ghproxy.net/', 'https://moeyy.cn/gh-proxy/', ''];
     const fastest = await measureSpeed(urlsToTest, 'https://raw.githubusercontent.com/LiteLoaderQQNT/Plugin-List/v4/plugins.json')
     fastestUrl.value = fastest.url;
     const pluginsData = fastest.data;

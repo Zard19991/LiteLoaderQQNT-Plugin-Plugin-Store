@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-19 16:55:53
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 20:12:19
+ * @LastEditTime: 2024-01-22 21:57:32
  */
 // 导入工具函数
 const { createApp, ref } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
@@ -23,7 +23,7 @@ async function setting_vue(node) {
             const app = createApp({
               methods: {
                 details(repo) {
-                  const url = `${fastestUrl.value}https://github.com/${repo}`;
+                  const url = `https://github.com/${repo}`;
                   openWeb(url);
                 },
                 async install(repository, slug, index) {
