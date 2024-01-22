@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:17
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 18:42:39
+ * @LastEditTime: 2024-01-22 19:31:54
  */
 import { setting_vue, plugins, gPlugins, fastestUrl } from "./renderer/setVue.js"
 import { pluginsLoad } from "./renderer/api.js"
@@ -10,7 +10,7 @@ import { measureSpeed } from "./renderer/measureSpeed.js"
 async function fetchData(plugin) {
     const data = await (await fetch(`${fastestUrl.value}https://raw.githubusercontent.com/${plugin.repo}/${plugin.branch}/manifest.json`)).json();
     if (data.repository.release.tag === "latest") {
-      data.repository.release.tag = (await (await fetch(`${fastestUrl.value}https://api.github.com/repos/${plugin.repo}/releases/latest`)).json()).tag_name
+      data.repository.release.tag = (await (await fetch(`https://api.github.com/repos/${plugin.repo}/releases/latest`)).json()).tag_name
     }
     data.icon = data.icon
                 ? `${fastestUrl.value}https://raw.githubusercontent.com/${data.repository.repo}/${data.repository.branch}${data.icon.replace(".", "")}` 

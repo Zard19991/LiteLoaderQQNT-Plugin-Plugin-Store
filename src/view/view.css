@@ -49,6 +49,7 @@
 .pluginStore .list-ctl .search-input {
     align-self: normal;
     flex: 1;
+    height: 20px;
     border-radius: 4px;
     margin-right: 16px;
     transition: all 100ms ease-out;
