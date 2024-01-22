@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:17
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 21:11:14
+ * @LastEditTime: 2024-01-22 21:16:45
  */
 import { setting_vue, plugins, gPlugins, fastestUrl } from "./renderer/setVue.js"
 import { pluginsLoad } from "./renderer/api.js"
@@ -12,7 +12,7 @@ async function fetchData(plugin) {
     if (data.repository.release.tag === "latest") {
         const urlsToTest = ['https://api.nn.ci/github/', 'https://api-cf.nn.ci/github/', 'https://api.xhofe.top/github/', 'https://api.github.com/'];
         const fastest = await measureSpeed(urlsToTest, `repos/${plugin.repo}/releases/latest`)
-        data.repository.release.tag = fastest.tag_name
+        data.repository.release.tag = fastest.data.tag_name
     }
     data.icon = data.icon
                 ? `${fastestUrl.value}https://raw.githubusercontent.com/${data.repository.repo}/${data.repository.branch}${data.icon.replace(".", "")}` 
