@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 21:12:48
+ * @LastEditTime: 2024-01-22 22:33:23
  */
 // 运行在 Electron 主进程 下的插件入口
 
@@ -39,6 +39,7 @@ function request(url) {
 }
 
 async function install(url, slug) {
+    console.log(url)
     const { plugins } = LiteLoader.path;
     const plugin_path = `${plugins}/${slug}`;
     try {
