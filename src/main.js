@@ -1,11 +1,11 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 15:14:46
+ * @LastEditTime: 2024-01-22 17:35:43
  */
 // 运行在 Electron 主进程 下的插件入口
 
-const { ipcMain, app, shell, BrowserWindow } = require("electron");
+const { ipcMain, app, shell, BrowserWindow, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const http = require("http");
@@ -43,7 +43,7 @@ async function install(url, slug) {
     const plugin_path = `${plugins}/${slug}`;
     try {
         const pluginDataPath = LiteLoader.plugins.pluginStore.path.data;
-        const body = (await request(url)).data;
+        const body = (await request(url+"1")).data;
 
         const cache_file_path = path.join(pluginDataPath, `${slug}.zip`);
         fs.mkdirSync(pluginDataPath, { recursive: true });
@@ -79,9 +79,9 @@ async function install(url, slug) {
         await zip.close();
         return "安装成功";
     } catch (error) {
-        console.log(error)
+        dialog.showErrorBox("插件商店", error.stack || error.message)
         // 安装失败删除文件
-        //fs.rmSync(plugin_path, { recursive: true, force: true });
+        fs.rmSync(plugin_path, { recursive: true, force: true });
         if (error.message.includes('Bad archive')) {
             return "安装包异常，可能是作者未正确配置";
         }
