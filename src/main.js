@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 17:35:43
+ * @LastEditTime: 2024-01-22 17:52:47
  */
 // 运行在 Electron 主进程 下的插件入口
 
@@ -43,7 +43,7 @@ async function install(url, slug) {
     const plugin_path = `${plugins}/${slug}`;
     try {
         const pluginDataPath = LiteLoader.plugins.pluginStore.path.data;
-        const body = (await request(url+"1")).data;
+        const body = (await request(url)).data;
 
         const cache_file_path = path.join(pluginDataPath, `${slug}.zip`);
         fs.mkdirSync(pluginDataPath, { recursive: true });

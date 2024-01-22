@@ -39,7 +39,7 @@ async function onSettingWindowCreated(view){
             setting_vue(node)
         }
     })
-    const urlsToTest = ['https://mirror.ghproxy.com/', 'https://ghproxy.net/', 'https://moeyy.cn/gh-proxy/', ''];
+    const urlsToTest = ['https://mirror.ghproxy.com/', 'https://ghproxy.net/', 'https://moeyy.cn/gh-proxy/'];
     const fastest = await measureSpeed(urlsToTest)
     fastestUrl.value = fastest.url;
     const pluginsData = fastest.data;
