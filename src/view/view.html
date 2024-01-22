@@ -43,12 +43,13 @@
         <span>类型：{{manifest.type}}</span>
         <span>平台：{{manifest.platform}}</span>
         <span>版本：{{manifest.version}}</span>
+        <br v-if="manifest?.dependencies?.length > 0 || manifest?.authors?.length > 1">
         <span
           >开发：
-          <a
+          <a v-for="(author, index) in manifest.authors"
             href="javascript:void(0);"
-            @click="toAuthor(manifest.authors[0].link)"
-            >{{manifest.authors[0].name}}</a
+            @click="toAuthor(author.link)"
+            >{{author.name}}</a
           >
         </span>
         <span v-if="manifest?.dependencies?.length > 0"
