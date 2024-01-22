@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:17
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 17:26:56
+ * @LastEditTime: 2024-01-22 17:45:42
  */
 import { setting_vue, plugins, fastestUrl } from "./renderer/setVue.js"
 import { pluginsLoad } from "./renderer/api.js"
@@ -42,7 +42,7 @@ async function onSettingWindowCreated(view){
     const urlsToTest = ['https://mirror.ghproxy.com/', 'https://ghproxy.net/', 'https://moeyy.cn/gh-proxy/', ''];
     const fastest = await measureSpeed(urlsToTest)
     fastestUrl.value = fastest.url;
-    const pluginsData = await fastest.response.json();
+    const pluginsData = fastest.data;
     Promise.all(pluginsData.map(fetchData)).then(() => {
         pluginsLoad();
     });

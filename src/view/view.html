@@ -51,6 +51,14 @@
             >{{manifest.authors[0].name}}</a
           >
         </span>
+        <span v-if="manifest?.dependencies?.length > 0"
+        >依赖：
+        <a v-for="(slug, index) in manifest.dependencies"
+          href="javascript:void(0);"
+          @click="toPlugin(slug)"
+          >{{slug}}</a
+        >
+      </span>
       </p>
     </div>
   </div>

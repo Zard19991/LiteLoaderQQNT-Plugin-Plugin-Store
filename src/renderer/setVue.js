@@ -45,6 +45,15 @@ async function setting_vue(node) {
                 toAuthor(link) {
                   openWeb(link);
                 },
+                toPlugin(slug) {
+                  const targetElement = document.getElementById(slug);
+                  if (targetElement) {
+                      targetElement.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'start',
+                      });
+                  }
+                }
               },
               setup() {
                 return {
