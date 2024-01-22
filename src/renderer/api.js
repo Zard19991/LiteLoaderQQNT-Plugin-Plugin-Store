@@ -1,6 +1,13 @@
+/*
+ * @Date: 2024-01-21 23:23:35
+ * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
+ * @LastEditTime: 2024-01-22 16:51:07
+ */
 const ipcRenderer = pluginStore.ipcRenderer_LL;
 const ipcRenderer_on = pluginStore.ipcRenderer_LL_on;
 const createWin = pluginStore.createWin;
+
+let gslug = "";
 
 function ntCall(eventName, cmdName, args, isRegister = false) {
     const uuid = crypto.randomUUID();
@@ -23,20 +30,38 @@ class Api {
         createWin(slug);
     }
 }
-export const apiInstance = new Api();
+const apiInstance = new Api();
 Object.defineProperty(window, "StoreAPI", {
     value: apiInstance,
     writable: false,
 });
 
-ipcRenderer_on('message-main', (event, arg) => {
-    console.log('渲染进程收到消息:', arg);
-    document.querySelector(".liteloader.store").click();
-    const targetElement = document.getElementById(arg);
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth', // 使用平滑滚动
-        block: 'start',     // 将目标元素的开始位置对齐到其包含块的开始位置 center->中间
-      });
+function pluginsLoad() {
+    if (gslug) {
+        const targetElement = document.getElementById(gslug);
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth', // 使用平滑滚动
+                block: 'start',     // 将目标元素的开始位置对齐到其包含块的开始位置 center->中间
+            });
+        }
     }
+    gslug = "";
+}
+
+ipcRenderer_on('message-main', (event, slug) => {
+    gslug = slug;
+    const observer = new MutationObserver((mutationsList, observer) => {
+        for (const { target } of mutationsList) {
+            if (target.classList?.contains("store")) {
+                target.click();
+                observer.disconnect();
+            }
+        }
+      });
+    observer.observe(document.querySelector(".nav-bar"), { subtree: true, attributes: true, attributeFilter: ['class'] });
 });
+
+export {
+    pluginsLoad
+}

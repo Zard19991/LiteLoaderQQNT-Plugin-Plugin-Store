@@ -1,10 +1,24 @@
 /*
  * @Date: 2024-01-21 14:57:17
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-21 23:42:34
+ * @LastEditTime: 2024-01-22 17:26:56
  */
-import { setting_vue, plugins } from "./renderer/setVue.js"
-import "./renderer/api.js"
+import { setting_vue, plugins, fastestUrl } from "./renderer/setVue.js"
+import { pluginsLoad } from "./renderer/api.js"
+import { measureSpeed } from "./renderer/measureSpeed.js"
+
+async function fetchData(plugin) {
+    const data = await (await fetch(`${fastestUrl.value}https://raw.githubusercontent.com/${plugin.repo}/${plugin.branch}/manifest.json`)).json();
+    if (data.repository.release.tag === "latest") {
+      data.repository.release.tag = (await (await fetch(`${fastestUrl.value}https://api.github.com/repos/${plugin.repo}/releases/latest`)).json()).tag_name
+    }
+    data.icon = data.icon
+                ? `${fastestUrl.value}https://raw.githubusercontent.com/${data.repository.repo}/${data.repository.branch}${data.icon.replace(".", "")}` 
+                : `${fastestUrl.value}https://raw.githubusercontent.com/Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store/master/icon.png`
+    data.install = "安装";
+    data.update = "更新";
+    plugins.push(data)
+}
 
 async function onSettingWindowCreated(view){
     const plugin_path = LiteLoader.plugins.pluginStore.path.plugin;
@@ -25,22 +39,13 @@ async function onSettingWindowCreated(view){
             setting_vue(node)
         }
     })
-
-    const response = await fetch("https://raw.githubusercontent.com/LiteLoaderQQNT/Plugin-List/v4/plugins.json");
-    const pluginsData = await response.json();
-    pluginsData.forEach(async plugin => {
-        const data = await (await fetch(`https://raw.githubusercontent.com/${plugin.repo}/${plugin.branch}/manifest.json`)).json();
-        if (data.repository.release.tag === "latest") {
-            data.repository.release.tag = (await (await fetch(`https://api.github.com/repos/${plugin.repo}/releases/latest`)).json()).tag_name
-        }
-        data.icon = data.icon
-                    ? `https://raw.githubusercontent.com/${data.repository.repo}/${data.repository.branch}${data.icon.replace(".", "")}` 
-                    : "https://raw.githubusercontent.com/Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store/master/icon.png"
-        data.install = "安装";
-        data.update = "更新";
-        plugins.push(data)
-    })
-
+    const urlsToTest = ['https://mirror.ghproxy.com/', 'https://ghproxy.net/', 'https://moeyy.cn/gh-proxy/', ''];
+    const fastest = await measureSpeed(urlsToTest)
+    fastestUrl.value = fastest.url;
+    const pluginsData = await fastest.response.json();
+    Promise.all(pluginsData.map(fetchData)).then(() => {
+        pluginsLoad();
+    });
 }
 
 export {
