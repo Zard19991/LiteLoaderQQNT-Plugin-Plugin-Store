@@ -4,7 +4,7 @@
  * @LastEditTime: 2024-01-22 20:12:19
  */
 // 导入工具函数
-const { createApp, reactive, ref, watch } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
+const { createApp, ref } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
 const install = pluginStore.install
 const uninstall = pluginStore.uninstall
 const update = pluginStore.update
