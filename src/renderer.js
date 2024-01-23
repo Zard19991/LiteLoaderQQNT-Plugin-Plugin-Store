@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:17
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 22:41:50
+ * @LastEditTime: 2024-01-23 23:49:45
  */
 import { setting_vue, plugins, gPlugins, fastestUrl } from "./renderer/setVue.js"
 import { pluginsLoad } from "./renderer/api.js"
@@ -19,6 +19,7 @@ async function fetchData(plugin) {
                 : `${fastestUrl.value}https://raw.githubusercontent.com/Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store/master/icon.png`
     data.install = "安装";
     data.update = "更新";
+    data.restart = false;
     gPlugins.push(data)
     plugins.value.push(data)
 }

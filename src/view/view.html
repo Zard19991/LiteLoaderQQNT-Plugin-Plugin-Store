@@ -43,6 +43,14 @@
           >
             {{manifest.update}}
           </button>
+          <button
+            class="q-button q-button--small q-button--secondary"
+            v-if="manifest.restart"
+            @click="restart(index)"
+            :disabled="manifest.restart!=='重启'"
+          >
+          {{manifest.restart}}
+        </button>
         </div>
       </div>
       <hr class="horizontal-dividing-line" />

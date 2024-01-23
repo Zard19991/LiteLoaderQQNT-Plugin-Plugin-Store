@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-19 16:55:53
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 21:57:32
+ * @LastEditTime: 2024-01-23 23:52:22
  */
 // 导入工具函数
 const { createApp, ref } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
@@ -28,19 +28,19 @@ async function setting_vue(node) {
                 },
                 async install(repository, slug, index) {
                   this.plugins[index].install = "安装中"
-                  this.plugins[index].installStatus = true
                   const url = repository.release.file
                       ? `${fastestUrl.value}https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
                       : `${fastestUrl.value}https://github.com/${repository.repo}/archive/refs/tags/${repository.release.tag}.zip`;
                   this.plugins[index].install = await install(url, slug)
+                  this.plugins[index].restart = "重启"
                 },
                 async update(repository, slug, index) {
                   this.plugins[index].update = "更新中"
-                  this.plugins[index].installStatus = true
                   const url = repository.release.file
                       ? `${fastestUrl.value}https://github.com/${repository.repo}/releases/download/${repository.release.tag}/${repository.release.file}`
                       : `${fastestUrl.value}https://github.com/${repository.repo}/archive/refs/tags/${repository.release.tag}.zip`;
-                    this.plugins[index].update = await update(url, slug)
+                  this.plugins[index].update = await update(url, slug)
+                  this.plugins[index].restart = "重启"
                 },
                 toAuthor(link) {
                   openWeb(link);
@@ -61,6 +61,10 @@ async function setting_vue(node) {
                     || item.description.toLowerCase().includes(this.searchTerm.toLowerCase())
                   );
                 },
+                restart(index) {
+                  this.plugins[index].restart = "重启中"
+                  restart()
+                }
               },
               setup() {
                 return {

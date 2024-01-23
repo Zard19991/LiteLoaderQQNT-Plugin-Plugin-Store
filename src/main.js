@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-22 22:33:23
+ * @LastEditTime: 2024-01-23 20:34:07
  */
 // 运行在 Electron 主进程 下的插件入口
 
@@ -130,10 +130,6 @@ async function restart() {
     app.exit(0);
 }
 
-function openWeb(url) {
-    shell.openExternal(url);
-}
-
 // 加载插件时触发
 function onLoad(plugin) {
     // 安装
@@ -157,8 +153,8 @@ function onLoad(plugin) {
         (event, ...message) => restart()
     );
     // 外部打开网址
-    ipcMain.on("LiteLoader.pluginStore.openWeb", (event, ...message) =>
-        openWeb(...message)
+    ipcMain.on("LiteLoader.pluginStore.openWeb", (event, url) =>
+        shell.openExternal(url)
     );
     ipcMain.on("LiteLoader.pluginStore.createWin", (event, message) => {
         const Interval = setInterval(() => {
