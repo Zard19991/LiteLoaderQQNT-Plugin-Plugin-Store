@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-24 20:10:42
+ * @LastEditTime: 2024-01-24 21:10:34
  */
 // 运行在 Electron 主进程 下的插件入口
 
@@ -38,17 +38,25 @@ function request(url) {
     });
 }
 
-async function install(url, slug) {
+/**
+ * 下载插件
+ * @param {String} url 
+ * @returns 
+ */
+async function downloadPlugin(url, slug) {
+    const pluginDataPath = LiteLoader.plugins.pluginStore.path.data;
+    const body = (await request(url)).data;
+
+    const cache_file_path = path.join(pluginDataPath, `${slug}.zip`);
+    fs.mkdirSync(pluginDataPath, { recursive: true });
+    fs.writeFileSync(cache_file_path, body);
+    return cache_file_path;
+}
+
+async function installPlugin(cache_file_path, slug) {
     const { plugins } = LiteLoader.path;
     const plugin_path = `${plugins}/${slug}`;
     try {
-        const pluginDataPath = LiteLoader.plugins.pluginStore.path.data;
-        const body = (await request(url)).data;
-
-        const cache_file_path = path.join(pluginDataPath, `${slug}.zip`);
-        fs.mkdirSync(pluginDataPath, { recursive: true });
-        fs.writeFileSync(cache_file_path, body);
-
         // 解压并安装插件
         fs.mkdirSync(plugin_path, { recursive: true });
         const zip = new StreamZip.async({ file: cache_file_path });
@@ -79,7 +87,7 @@ async function install(url, slug) {
         await zip.close();
         return "安装成功";
     } catch (error) {
-        dialog.showErrorBox("插件商店", error.stack || error.message)
+        dialog.showErrorBox("插件商店", error.stack || error.message);
         // 安装失败删除文件
         fs.rmSync(plugin_path, { recursive: true, force: true });
         if (error.message.includes('Bad archive')) {
@@ -88,6 +96,17 @@ async function install(url, slug) {
         return "安装失败";
     }
 }
+
+async function install(url, slug) {
+    try {
+        const cache_file_path = await downloadPlugin(url, slug)
+        return await installPlugin(cache_file_path, slug);
+    } catch(error) {
+        dialog.showErrorBox("插件商店", error.stack || error.message)
+        return "下载失败"
+    }
+}
+
 
 async function uninstall(slug, update_mode = false) {
     const paths = LiteLoader.plugins[slug].path;
@@ -113,15 +132,22 @@ async function uninstall(slug, update_mode = false) {
 }
 
 async function update(url, slug) {
-    // 先卸载
-    if (!(await uninstall(slug, true))) {
-        return "更新失败";
+    // 先下载
+    try {
+        const cache_file_path = await downloadPlugin(url, slug)
+        // 再卸载
+        if (!(await uninstall(slug, true))) {
+            return "更新失败";
+        }
+        // 后安装
+        if (!(await installPlugin(cache_file_path, slug))==="安装成功") {
+            return "更新失败";
+        }
+        return "更新成功";
+    } catch(error) {
+        dialog.showErrorBox("插件商店", error.stack || error.message)
+        return "下载失败"
     }
-    // 后安装
-    if (!(await install(url, slug))) {
-        return "更新失败";
-    }
-    return "更新成功";
 }
 
 async function restart() {
