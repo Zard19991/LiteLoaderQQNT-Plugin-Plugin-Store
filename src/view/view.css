@@ -2,7 +2,6 @@
 /* 列表控制区域 */
 /**************/
 
-
 /* 高级选项按钮 */
 .pluginStore .list-ctl .adv-ops-btn {
     display: flex;
@@ -251,8 +250,8 @@
 .pluginStore h1 {
     color: var(--text_primary);
     font-weight: var(--font-bold);
-    font-size: min(var(--font_size_3), 18px);
-    line-height: min(var(--line_height_3), 24px);
+    font-size: min(var(--font_size_3), 18px); /* 14px */
+    line-height: min(var(--line_height_3), 24px); /* 20px */
     padding: 0px 16px;
     margin-bottom: 8px;
 }
@@ -324,8 +323,8 @@
 /* 副文本 */
 .pluginStore .secondary-text {
     color: var(--text_secondary);
-    font-size: min(var(--font_size_2), 16px);
-    line-height: min(var(--line_height_2), 22px);
+    font-size: min(var(--font_size_2), 16px); /* 12px */
+    line-height: min(var(--line_height_2), 22px); /* 16px */
     margin-top: 4px;
 }
 

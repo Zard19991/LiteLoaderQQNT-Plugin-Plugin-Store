@@ -1,9 +1,9 @@
 <div id="pluginStore">
   <section class="list-ctl">
     <div class="wrap">
-        <div class="vertical-list-item">
-            <input v-model="searchTerm" @input="search" class="search-input" type="text" spellcheck="false" placeholder="输入搜索词" />
-        </div>
+      <div class="vertical-list-item">
+        <input v-model="searchTerm" @input="search" class="search-input" type="text" spellcheck="false" placeholder="输入搜索词" />
+      </div>
     </div>
   </section>
   <section class="plugin-list">
@@ -15,42 +15,15 @@
           <p class="secondary-text description">{{manifest.description}}</p>
         </div>
         <div class="ops-btns">
-          <button
-            class="q-button q-button--small q-button--secondary"
-            @click="details(manifest.repository.repo)"
-          >
-            详情
-          </button>
-          <button
-            class="q-button q-button--small q-button--secondary"
-            v-if="!LiteLoader?.plugins?.[manifest.slug]?.manifest?.version"
-            :disabled="manifest.install!=='安装'"
-            @click="install(manifest.repository, manifest.slug, index)"
-          >
-            {{manifest.install}}
-          </button>
-          <button
-            class="q-button q-button--small q-button--secondary"
-            v-else-if="LiteLoader.plugins[manifest.slug]?.manifest?.version >= manifest.version"
-          >
-            已安装
-          </button>
-          <button
-            class="q-button q-button--small q-button--secondary"
-            v-else
-            @click="update(manifest.repository, manifest.slug, index)"
-            :disabled="manifest.update!=='更新'"
-          >
-            {{manifest.update}}
-          </button>
-          <button
-            class="q-button q-button--small q-button--secondary"
-            v-if="manifest.restart"
-            @click="restart(index)"
-            :disabled="manifest.restart!=='重启'"
-          >
-          {{manifest.restart}}
-        </button>
+          <button class="q-button q-button--small q-button--secondary" @click="details(manifest.repository.repo)">详情</button>
+          <button class="q-button q-button--small q-button--secondary"  @click="install(manifest.repository, manifest.slug, index)"
+            v-if="!LiteLoader?.plugins?.[manifest.slug]?.manifest?.version" :disabled="manifest.install!=='安装'">{{manifest.install}}</button>
+          <button class="q-button q-button--small q-button--secondary" 
+            v-else-if="LiteLoader.plugins[manifest.slug]?.manifest?.version >= manifest.version">已安装</button>
+          <button class="q-button q-button--small q-button--secondary" @click="update(manifest.repository, manifest.slug, index)"
+            v-else :disabled="manifest.update!=='更新'">{{manifest.update}}</button>
+          <button class="q-button q-button--small q-button--secondary" @click="restart(index)"
+            v-if="manifest.restart" :disabled="manifest.restart!=='重启'">{{manifest.restart}}</button>
         </div>
       </div>
       <hr class="horizontal-dividing-line" />
@@ -60,22 +33,12 @@
           <span>平台：{{manifest.platform}}</span>
           <span>版本：{{manifest.version}}</span>
           <br v-if="manifest?.dependencies?.length > 0 || manifest?.authors?.length > 1">
-          <span
-            >开发：
-            <a v-for="(author, index) in manifest.authors"
-              href="javascript:void(0);"
-              @click="toAuthor(author.link)"
-              >{{author.name}}</a
-            >
+          <span>开发：
+            <a v-for="(author, index) in manifest.authors" href="javascript:void(0);" @click="toAuthor(author.link)">{{author.name}}</a>
           </span>
-          <span v-if="manifest?.dependencies?.length > 0"
-          >依赖：
-          <a v-for="(slug, index) in manifest.dependencies"
-            href="javascript:void(0);"
-            @click="toPlugin(slug)"
-            >{{slug}}</a
-          >
-        </span>
+          <span v-if="manifest?.dependencies?.length > 0">依赖：
+            <a v-for="(slug, index) in manifest.dependencies" href="javascript:void(0);" @click="toPlugin(slug)">{{slug}}</a>
+          </span>
         </p>
       </div>
     </div>

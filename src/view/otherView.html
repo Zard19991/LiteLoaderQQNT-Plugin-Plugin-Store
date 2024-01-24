@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>插件商店</title>
+    <link rel="stylesheet" href="../view/otherCss.css"/>
+    <link rel="stylesheet" href="../view/view.css"/>
+    <script src="../page/custom.js" type="module"></script>
+  </head>
+  
+  <body class="q-theme-tokens-light">
+    <div id="app" style="height: 100%" data-v-app="" class="vue-component">
+      <div class="setting-layout">
+        <div class="pluginStore tab-view" id="pluginStore">
+          <section class="list-ctl">
+            <div class="wrap">
+              <div class="vertical-list-item">
+                <input v-model="searchTerm" @input="search" class="search-input" type="text" spellcheck="false" placeholder="输入搜索词" />
+              </div>
+            </div>
+          </section>
+          <section class="plugin-list">
+            <div class="wrap" v-for="(manifest, index) in plugins">
+              <div class="vertical-list-item" :id="manifest.slug">
+                <img class="thumbnail" :src="manifest.icon" />
+                <div class="info">
+                  <h2 class="name">{{manifest.name}}</h2>
+                  <p class="secondary-text description">{{manifest.description}}</p>
+                </div>
+                <div class="ops-btns">
+                  <button class="q-button q-button--small q-button--secondary" @click="details(manifest.repository.repo)">详情</button>
+                  <button class="q-button q-button--small q-button--secondary" @click="install(manifest.repository, manifest.slug, index)"
+                    v-if="!LiteLoader?.plugins?.[manifest.slug]?.manifest?.version" :disabled="manifest.install!=='安装'">{{manifest.install}}</button>
+                  <button class="q-button q-button--small q-button--secondary" 
+                    v-else-if="LiteLoader.plugins[manifest.slug]?.manifest?.version >= manifest.version">已安装</button>
+                  <button class="q-button q-button--small q-button--secondary" @click="update(manifest.repository, manifest.slug, index)"
+                    v-else :disabled="manifest.update!=='更新'">{{manifest.update}}</button>
+                  <button class="q-button q-button--small q-button--secondary" @click="restart(index)"
+                    v-if="manifest.restart" :disabled="manifest.restart!=='重启'">{{manifest.restart}}</button>
+                </div>
+              </div>
+              <hr class="horizontal-dividing-line" />
+              <div class="vertical-list-item">
+                <p class="secondary-text extra-information">
+                  <span>类型：{{manifest.type}}</span>
+                  <span>平台：{{manifest.platform}}</span>
+                  <span>版本：{{manifest.version}}</span>
+                  <br v-if="manifest?.dependencies?.length > 0 || manifest?.authors?.length > 1">
+                  <span>开发：
+                    <a v-for="(author, index) in manifest.authors" href="javascript:void(0);" @click="toAuthor(author.link)">{{author.name}}</a>
+                  </span>
+                  <span v-if="manifest?.dependencies?.length > 0">依赖：
+                    <a v-for="(slug, index) in manifest.dependencies" href="javascript:void(0);" @click="toPlugin(slug)">{{slug}}</a>
+                  </span>
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

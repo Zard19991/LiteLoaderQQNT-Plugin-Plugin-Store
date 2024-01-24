@@ -1,11 +1,11 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-23 20:34:07
+ * @LastEditTime: 2024-01-24 20:10:42
  */
 // 运行在 Electron 主进程 下的插件入口
 
-const { ipcMain, app, shell, BrowserWindow, dialog } = require("electron");
+const { ipcMain, app, shell, BrowserWindow, dialog, net } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const http = require("http");
@@ -39,7 +39,6 @@ function request(url) {
 }
 
 async function install(url, slug) {
-    console.log(url)
     const { plugins } = LiteLoader.path;
     const plugin_path = `${plugins}/${slug}`;
     try {
@@ -166,6 +165,48 @@ function onLoad(plugin) {
             });
         }, 100);
         setTimeout(()=>clearInterval(Interval), 1500);
+    });
+    // 外部打开网址
+    ipcMain.on("LiteLoader.pluginStore.createBrowserWindow", (event) => {
+        const newWindow = new BrowserWindow({
+            //frame: false,
+            transparent: false,
+            backgroundColor: "#ffffff",
+            titleBarStyle: "default",
+            trafficLightPosition: {
+                x: 5,
+                y: 5,
+            },
+            visualEffectState: "active",
+            autoHideMenuBar: true,
+            webPreferences: {
+                nodeIntegration: false,
+                contextIsolation: true,
+                preload: path.join(__dirname, 'preload.js'),
+                additionalArguments: ["--fetch-schemes=local"],
+                devTools: true,
+                plugins: true,
+                sandbox: true,
+                webviewTag: true,
+                webSecurity: false,
+            }
+        });
+        // 加载新窗口的页面
+        newWindow.loadFile(path.join(__dirname, 'view/otherView.html'));
+        const protocol = newWindow.webContents.session.protocol;
+        protocol.handle("local", async (req) => {
+            const { host, pathname } = new URL(decodeURI(req.url));
+            const filepath = path.normalize(pathname.slice(1));
+            return net.fetch(`file://${host}/${filepath}`);
+        });
+        // 监听新窗口关闭事件
+        newWindow.on('closed', () => {
+            console.log('窗口关闭')
+        });
+    });
+    // 外部打开网址
+    ipcMain.on("LiteLoader.pluginStore.log", (event, level, ...args) => {
+        console[{ 0: "debug", 1: "log", 2: "info", 3: "warn", 4: "error" }[level] || "log"](`[!Renderer:Log:${event.sender.id}]`, ...args);
     });
 }
 
