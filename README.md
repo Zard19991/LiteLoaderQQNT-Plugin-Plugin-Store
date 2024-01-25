@@ -24,3 +24,8 @@
     }
 ]
 ```
+> [!Tip]
+>第三方插件可以通过调用api, 来打开商店
+>```js
+>pluginStore.createBrowserWindow(slug)
+>```
