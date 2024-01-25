@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-19 16:55:53
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-24 20:43:31
+ * @LastEditTime: 2024-01-25 18:49:51
  */
 // 导入工具函数
 const { createApp, ref } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
@@ -10,6 +10,7 @@ const uninstall = pluginStore.uninstall
 const update = pluginStore.update
 const restart = pluginStore.restart
 const openWeb = pluginStore.openWeb
+const createBrowserWindow = pluginStore.createBrowserWindow
 
 const gPlugins = []
 const plugins = ref([])
@@ -62,6 +63,10 @@ function init() {
         restart(index) {
           this.plugins[index].restart = "重启中"
           restart()
+        },
+        openPluginStore(index) {
+          this.plugins[index].store.slug = this.plugins[index].slug
+          createBrowserWindow(JSON.stringify(this.plugins[index].store))
         }
       },
       setup() {

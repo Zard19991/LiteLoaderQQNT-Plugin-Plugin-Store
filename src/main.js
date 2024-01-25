@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-24 21:10:34
+ * @LastEditTime: 2024-01-25 20:05:44
  */
 // 运行在 Electron 主进程 下的插件入口
 
@@ -43,11 +43,26 @@ function request(url) {
  * @param {String} url 
  * @returns 
  */
-async function downloadPlugin(url, slug) {
-    const pluginDataPath = LiteLoader.plugins.pluginStore.path.data;
+async function downloadPlugin(url, slug, save_folder="") {
+    const pluginDataPath = save_folder? save_folder:LiteLoader.plugins.pluginStore.path.data;
     const body = (await request(url)).data;
 
     const cache_file_path = path.join(pluginDataPath, `${slug}.zip`);
+    fs.mkdirSync(pluginDataPath, { recursive: true });
+    fs.writeFileSync(cache_file_path, body);
+    return cache_file_path;
+}
+
+/**
+ * 下载文件
+ * @param {String} url 
+ * @returns 
+ */
+async function downloadFile(url, file_name, save_folder="") {
+    const pluginDataPath = save_folder? save_folder:LiteLoader.plugins.pluginStore.path.data;
+    const body = (await request(url)).data;
+
+    const cache_file_path = path.join(pluginDataPath, file_name);
     fs.mkdirSync(pluginDataPath, { recursive: true });
     fs.writeFileSync(cache_file_path, body);
     return cache_file_path;
@@ -156,11 +171,25 @@ async function restart() {
 }
 
 // 加载插件时触发
-function onLoad(plugin) {
+function onLoad() {
     // 安装
     ipcMain.handle(
         "LiteLoader.pluginStore.install",
         (event, ...message) => install(...message)
+    );
+    // 下载文件
+    ipcMain.handle(
+        "LiteLoader.pluginStore.downloadFile",
+        async (event, ...message) => {
+            try {
+                await downloadFile(...message)
+                return "下载成功"
+            } catch(error) {
+                dialog.showErrorBox("插件商店", error.stack || error.message)
+                return "下载失败"
+            }
+
+        }
     );
     // 卸载
     ipcMain.handle(
@@ -193,7 +222,7 @@ function onLoad(plugin) {
         setTimeout(()=>clearInterval(Interval), 1500);
     });
     // 外部打开网址
-    ipcMain.on("LiteLoader.pluginStore.createBrowserWindow", (event) => {
+    ipcMain.on("LiteLoader.pluginStore.createBrowserWindow", (event, store) => {
         const newWindow = new BrowserWindow({
             //frame: false,
             transparent: false,
@@ -224,6 +253,11 @@ function onLoad(plugin) {
             const { host, pathname } = new URL(decodeURI(req.url));
             const filepath = path.normalize(pathname.slice(1));
             return net.fetch(`file://${host}/${filepath}`);
+        });
+        // 在创建窗口时注入附加数据
+        newWindow.webContents.on('did-finish-load', async () => {
+            console.log("测试")
+            newWindow.webContents.send('store-data', store);
         });
         // 监听新窗口关闭事件
         newWindow.on('closed', () => {

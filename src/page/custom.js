@@ -1,13 +1,18 @@
 /*
  * @Date: 2024-01-24 00:36:32
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-24 16:00:12
+ * @LastEditTime: 2024-01-25 20:05:53
  * 自定义页面兼容程序
  */
-import { init } from "../renderer/setVue.js"
-import { getPluginData } from "../renderer/utils.js";
+import { init } from "./setVue.js"
+import { getPluginData } from "./utils.js";
 
-const LiteLoader = pluginStore.LiteLoader()
+const ipcRenderer_on = pluginStore.ipcRenderer_LL_on;
+
+ipcRenderer_on('store-data', (event, data) => {
+  window.store_data = JSON.parse(data);
+  getPluginData(window.store_data);
+});
 
 function customInspect(obj, depth = 0) {
     if (depth > 3) {
@@ -54,19 +59,8 @@ function patchLogger() {
         };
     });
 }
-
 patchLogger(); // 重写渲染进程log
 init()
-getPluginData()
-console.log("测试")
-
-const plugin_path = LiteLoader.plugins.pluginStore.path.plugin;
-// CSS
-const css_file_path = `local:///${plugin_path}/src/view/view.css`;
-const link_element = document.createElement("link");
-link_element.rel = "stylesheet";
-link_element.href = css_file_path;
-//document.head.appendChild(link_element);
 
 function injectChiiDevtools(port) {
   const script = document.createElement("script");

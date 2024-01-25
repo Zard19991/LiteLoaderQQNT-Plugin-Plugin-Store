@@ -17,6 +17,7 @@
 [
     {
         "name": "名称",
+        "save_name": "保存的名称",
         "description": "简介，可选",
         "download": "下载链接",
         "details": "详细，可选"

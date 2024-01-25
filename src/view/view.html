@@ -24,6 +24,8 @@
             v-else :disabled="manifest.update!=='更新'">{{manifest.update}}</button>
           <button class="q-button q-button--small q-button--secondary" @click="restart(index)"
             v-if="manifest.restart" :disabled="manifest.restart!=='重启'">{{manifest.restart}}</button>
+          <button class="q-button q-button--small q-button--secondary" @click="openPluginStore(index)"
+            v-if="manifest.store">打开商店</button>
         </div>
       </div>
       <hr class="horizontal-dividing-line" />

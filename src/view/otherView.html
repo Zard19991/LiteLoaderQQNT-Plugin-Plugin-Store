@@ -1,7 +1,7 @@
 <!--
  * @Date: 2024-01-24 00:33:23
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 15:22:35
+ * @LastEditTime: 2024-01-25 19:14:14
 -->
 <!DOCTYPE html>
 <html lang="zh">
@@ -26,38 +26,18 @@
         </section>
         <section class="plugin-list">
           <div class="wrap" v-for="(manifest, index) in plugins">
-            <div class="vertical-list-item" :id="manifest.slug">
-              <img class="thumbnail" :src="manifest.icon" />
+            <div class="vertical-list-item">
               <div class="info">
                 <h2 class="name">{{manifest.name}}</h2>
                 <p class="secondary-text description">{{manifest.description}}</p>
               </div>
               <div class="ops-btns">
-                <button class="q-button q-button--small q-button--secondary" @click="details(manifest.repository.repo)">详情</button>
-                <button class="q-button q-button--small q-button--secondary" @click="install(manifest.repository, manifest.slug, index)"
-                  v-if="!LiteLoader?.plugins?.[manifest.slug]?.manifest?.version" :disabled="manifest.install!=='安装'">{{manifest.install}}</button>
-                <button class="q-button q-button--small q-button--secondary" 
-                  v-else-if="LiteLoader.plugins[manifest.slug]?.manifest?.version >= manifest.version">已安装</button>
-                <button class="q-button q-button--small q-button--secondary" @click="update(manifest.repository, manifest.slug, index)"
-                  v-else :disabled="manifest.update!=='更新'">{{manifest.update}}</button>
+                <button class="q-button q-button--small q-button--secondary" @click="openWeb(manifest.details)">详情</button>
+                <button class="q-button q-button--small q-button--secondary"  @click="install(index)"
+                  v-if="manifest.download" :disabled="manifest.install!=='安装'">{{manifest.install}}</button>
                 <button class="q-button q-button--small q-button--secondary" @click="restart(index)"
                   v-if="manifest.restart" :disabled="manifest.restart!=='重启'">{{manifest.restart}}</button>
               </div>
-            </div>
-            <hr class="horizontal-dividing-line" />
-            <div class="vertical-list-item">
-              <p class="secondary-text extra-information">
-                <span>类型：{{manifest.type}}</span>
-                <span>平台：{{manifest.platform}}</span>
-                <span>版本：{{manifest.version}}</span>
-                <br v-if="manifest?.dependencies?.length > 0 || manifest?.authors?.length > 1">
-                <span>开发：
-                  <a v-for="(author, index) in manifest.authors" href="javascript:void(0);" @click="toAuthor(author.link)">{{author.name}}</a>
-                </span>
-                <span v-if="manifest?.dependencies?.length > 0">依赖：
-                  <a v-for="(slug, index) in manifest.dependencies" href="javascript:void(0);" @click="toPlugin(slug)">{{slug}}</a>
-                </span>
-              </p>
             </div>
           </div>
         </section>

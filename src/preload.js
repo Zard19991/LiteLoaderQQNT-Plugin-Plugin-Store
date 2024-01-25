@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:56:46
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-24 01:16:40
+ * @LastEditTime: 2024-01-25 19:29:54
  */
 // Electron 主进程 与 渲染进程 交互的桥梁
 const { contextBridge, ipcRenderer } = require("electron");
@@ -15,6 +15,9 @@ contextBridge.exposeInMainWorld("pluginStore", {
     // 安装
     install: (url, slug) =>
         ipcRenderer.invoke("LiteLoader.pluginStore.install", url, slug),
+    // 下载文件
+    downloadFile: (url, file_name, save_folder) =>
+        ipcRenderer.invoke("LiteLoader.pluginStore.downloadFile", url, file_name, save_folder),
     // 卸载
     uninstall: (slug) =>
         ipcRenderer.invoke(
@@ -31,12 +34,12 @@ contextBridge.exposeInMainWorld("pluginStore", {
         ipcRenderer.send("LiteLoader.pluginStore.openWeb", url),
     createWin: (message) =>
         ipcRenderer.send("LiteLoader.pluginStore.createWin", message),
-    createBrowserWindow: () =>
-        ipcRenderer.send("LiteLoader.pluginStore.createBrowserWindow"),
+    createBrowserWindow: (store) =>
+        ipcRenderer.send("LiteLoader.pluginStore.createBrowserWindow", store),
     log: (level, ...serializedArgs) =>
             ipcRenderer.send("LiteLoader.pluginStore.log", level, ...serializedArgs),
     LiteLoader: () => {
-        return { 
+        return {
             ...ipcRenderer.sendSync("LiteLoader.LiteLoader.LiteLoader")
         }
     }

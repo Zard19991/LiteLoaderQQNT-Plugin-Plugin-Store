@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-24 01:04:31
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-24 01:13:21
+ * @LastEditTime: 2024-01-25 18:33:24
  */
 import { pluginsLoad } from "./api.js"
 import { measureSpeed } from "./reponse.js"
@@ -33,7 +33,7 @@ async function fetchData(plugin) {
     data.restart = false;
     gPlugins.push(data)
     plugins.value.push(data)
-  }
+}
   
 export {
     getPluginData
