@@ -65,8 +65,7 @@ function init() {
           restart()
         },
         openPluginStore(index) {
-          this.plugins[index].store.slug = this.plugins[index].slug
-          createBrowserWindow(JSON.stringify(this.plugins[index].store))
+          createBrowserWindow(this.plugins[index].slug)
         }
       },
       setup() {
