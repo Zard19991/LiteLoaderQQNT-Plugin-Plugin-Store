@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 20:51:56
+ * @LastEditTime: 2024-01-25 21:01:36
  */
 // 运行在 Electron 主进程 下的插件入口
 
@@ -249,11 +249,13 @@ function onLoad() {
         // 加载新窗口的页面
         newWindow.loadFile(path.join(__dirname, 'view/otherView.html'));
         const protocol = newWindow.webContents.session.protocol;
-        protocol.handle("local", async (req) => {
-            const { host, pathname } = new URL(decodeURI(req.url));
-            const filepath = path.normalize(pathname.slice(1));
-            return net.fetch(`file://${host}/${filepath}`);
-        });
+        if (!protocol.isProtocolHandled("local")) {
+            protocol.handle("local", async (req) => {
+                const { host, pathname } = new URL(decodeURI(req.url));
+                const filepath = path.normalize(pathname.slice(1));
+                return net.fetch(`file://${host}/${filepath}`);
+            });
+        }
         // 在创建窗口时注入附加数据
         newWindow.webContents.on('did-finish-load', () => {
             newWindow.webContents.executeJavaScript(`window.store_data = ${store}`); // 传递数据
@@ -261,6 +263,7 @@ function onLoad() {
         });
         // 监听新窗口关闭事件
         newWindow.on('closed', () => {
+            newWindow.destroy();
             // console.log('窗口关闭')
         });
     });
