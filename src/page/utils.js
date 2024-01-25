@@ -18,7 +18,11 @@ async function getPluginData(store) {
 
 
 async function fetchData(data) {
-    data.install = await onSnippetInstalled(window.store_data.slug, data.save_name)? "已安装":"安装";
+    try {
+        data.install = await onSnippetInstalled(window.store_data.slug, data.save_name)? "已安装":"安装";
+    } catch (error) {
+        data.install = "安装";
+    }
     data.update = "更新";
     data.restart = false;
     gPlugins.push(data);
