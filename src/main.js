@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 20:05:44
+ * @LastEditTime: 2024-01-25 20:07:36
  */
 // 运行在 Electron 主进程 下的插件入口
 
@@ -256,12 +256,11 @@ function onLoad() {
         });
         // 在创建窗口时注入附加数据
         newWindow.webContents.on('did-finish-load', async () => {
-            console.log("测试")
             newWindow.webContents.send('store-data', store);
         });
         // 监听新窗口关闭事件
         newWindow.on('closed', () => {
-            console.log('窗口关闭')
+            // console.log('窗口关闭')
         });
     });
     // 外部打开网址
