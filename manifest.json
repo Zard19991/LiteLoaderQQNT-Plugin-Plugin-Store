@@ -4,7 +4,7 @@
     "name": "插件商店",
     "slug": "pluginStore",
     "description": "插件商店",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "authors": [
         {
             "name": "Night-stars-1",
@@ -15,7 +15,7 @@
         "repo": "Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store",
         "branch": "master",
         "release": {
-            "tag": "v1.1.1"
+            "tag": "v1.1.2"
         }
     },
     "platform": [
