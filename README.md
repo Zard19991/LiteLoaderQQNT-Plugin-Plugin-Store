@@ -7,8 +7,8 @@
 `mainfest.yaml`文件下添加如下值
 ```json
 "store": {
-    "repo": "Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store",
-    "branch": "master",
+    "repo": "商店仓库",
+    "branch": "商店分支",
     "save_folder": "插件数据目录下的文件夹相对路径，本目录是不填写"
 }
 ```
