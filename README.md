@@ -29,3 +29,20 @@
 >```js
 >pluginStore.createBrowserWindow(slug)
 >```
+
+### 第三方商店内容安装状态广播
+插件商店在生成数据时会向主进程广播询问状态
+
+主进程需要监听`LiteLoader.${slug}.onSnippetInstalled`并返回是否安装
+
+注意 已安装->**true** 未安装->**false**, ${slug}为当前插件的slug
+```
+// 主进程
+ipcMain.handle(
+    "LiteLoader.${slug}.onSnippetInstalled",
+    (event, file_name) => {
+        console.log(file_name) // file_name为文件名
+        return true
+    }
+);
+```

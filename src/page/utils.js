@@ -1,10 +1,12 @@
 /*
  * @Date: 2024-01-24 01:04:31
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 20:06:00
+ * @LastEditTime: 2024-01-26 00:46:35
  */
 import { measureSpeed } from "../renderer/reponse.js"
 import { plugins, gPlugins, fastestUrl } from "./setVue.js"
+
+const onSnippetInstalled = pluginStore.onSnippetInstalled;
 
 async function getPluginData(store) {
     const urlsToTest = ['https://mirror.ghproxy.com/', 'https://ghproxy.net/', 'https://moeyy.cn/gh-proxy/', ''];
@@ -16,7 +18,7 @@ async function getPluginData(store) {
 
 
 async function fetchData(data) {
-    data.install = "安装";
+    data.install = await onSnippetInstalled(window.store_data.slug, data.save_name)? "已安装":"安装";
     data.update = "更新";
     data.restart = false;
     gPlugins.push(data);
