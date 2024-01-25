@@ -1,9 +1,11 @@
 /*
  * @Date: 2024-01-25 18:26:18
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 20:05:32
+ * @LastEditTime: 2024-01-25 20:38:22
  */
+import { getPluginData } from "./utils.js";
 const { createApp, ref } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
+
 const downloadFile = pluginStore.downloadFile
 const uninstall = pluginStore.uninstall
 const update = pluginStore.update
@@ -17,6 +19,7 @@ const fastestUrl = ref('');
 const LiteLoader = window?.LiteLoader? window.LiteLoader : pluginStore.LiteLoader();
 
 function init() {
+    getPluginData(window.store_data);
     const app = createApp({
         methods: {
             openWeb,

@@ -1,18 +1,10 @@
 /*
  * @Date: 2024-01-24 00:36:32
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 20:05:53
+ * @LastEditTime: 2024-01-25 20:41:27
  * 自定义页面兼容程序
  */
 import { init } from "./setVue.js"
-import { getPluginData } from "./utils.js";
-
-const ipcRenderer_on = pluginStore.ipcRenderer_LL_on;
-
-ipcRenderer_on('store-data', (event, data) => {
-  window.store_data = JSON.parse(data);
-  getPluginData(window.store_data);
-});
 
 function customInspect(obj, depth = 0) {
     if (depth > 3) {
@@ -60,7 +52,7 @@ function patchLogger() {
     });
 }
 patchLogger(); // 重写渲染进程log
-init()
+window.vueInit = init; // 挂载vue初始化函数
 
 function injectChiiDevtools(port) {
   const script = document.createElement("script");

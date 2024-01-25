@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 20:07:36
+ * @LastEditTime: 2024-01-25 20:37:49
  */
 // 运行在 Electron 主进程 下的插件入口
 
@@ -255,8 +255,12 @@ function onLoad() {
             return net.fetch(`file://${host}/${filepath}`);
         });
         // 在创建窗口时注入附加数据
-        newWindow.webContents.on('did-finish-load', async () => {
-            newWindow.webContents.send('store-data', store);
+        newWindow.webContents.on('dom-ready', () => {
+            newWindow.webContents.executeJavaScript(`window.store_data = ${store}`); // 传递数据
+            newWindow.webContents.executeJavaScript('window.vueInit()'); // 初始化vue
+        });
+        newWindow.webContents.on('did-finish-load', () => {
+
         });
         // 监听新窗口关闭事件
         newWindow.on('closed', () => {
