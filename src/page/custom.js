@@ -1,10 +1,14 @@
 /*
  * @Date: 2024-01-24 00:36:32
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 20:41:27
+ * @LastEditTime: 2024-01-25 20:50:55
  * 自定义页面兼容程序
  */
 import { init } from "./setVue.js"
+Object.defineProperty(window, "vueInit", {
+  value: init,
+  writable: false,
+});
 
 function customInspect(obj, depth = 0) {
     if (depth > 3) {
@@ -52,7 +56,6 @@ function patchLogger() {
     });
 }
 patchLogger(); // 重写渲染进程log
-window.vueInit = init; // 挂载vue初始化函数
 
 function injectChiiDevtools(port) {
   const script = document.createElement("script");
