@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-24 01:04:31
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 18:33:24
+ * @LastEditTime: 2024-01-26 16:13:07
  */
 import { pluginsLoad } from "./api.js"
 import { measureSpeed } from "./reponse.js"
@@ -21,13 +21,12 @@ async function getPluginData() {
 async function fetchData(plugin) {
     const data = await (await fetch(`${fastestUrl.value}https://raw.githubusercontent.com/${plugin.repo}/${plugin.branch}/manifest.json`)).json();
     if (data?.repository?.release?.tag === "latest") {
-        const urlsToTest = ['https://api.nn.ci/github/', 'https://api-cf.nn.ci/github/', 'https://api.xhofe.top/github/', 'https://api.github.com/'];
-        const fastest = await measureSpeed(urlsToTest, `repos/${plugin.repo}/releases/latest`)
-        data.repository.release.tag = fastest.data.tag_name
+        const response = await fetch(`${fastestUrl.value}https://github.com/${plugin.repo}/releases/latest`);
+        data.repository.release.tag = response.url.substring(response.url.lastIndexOf("/")+1);
     }
     data.icon = data.icon
                 ? `${fastestUrl.value}https://raw.githubusercontent.com/${data.repository.repo}/${data.repository.branch}${data.icon.replace(".", "")}` 
-                : `${fastestUrl.value}https://raw.githubusercontent.com/Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store/master/icon.png`
+                : `${fastestUrl.value}https://raw.githubusercontent.com/Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store/master/icon.png`;
     data.install = "安装";
     data.update = "更新";
     data.restart = false;
