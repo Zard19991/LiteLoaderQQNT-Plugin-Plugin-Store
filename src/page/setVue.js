@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-25 18:26:18
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-26 14:59:51
+ * @LastEditTime: 2024-01-26 17:22:00
  */
 import { getPluginData } from "./utils.js";
 const { createApp, ref } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
@@ -11,7 +11,7 @@ const uninstall = pluginStore.uninstall
 const update = pluginStore.update
 const restart = pluginStore.restart
 const openWeb = pluginStore.openWeb
-const createBrowserWindow = pluginStore.createBrowserWindow
+const isSnippetRestart = pluginStore.isSnippetRestart
 
 const gPlugins = []
 const plugins = ref([])
