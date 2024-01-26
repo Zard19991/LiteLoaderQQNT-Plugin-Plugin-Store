@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-24 00:36:32
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 20:50:55
+ * @LastEditTime: 2024-01-26 17:18:12
  * 自定义页面兼容程序
  */
 import { init } from "./setVue.js"
