@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-25 18:26:18
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-25 20:49:30
+ * @LastEditTime: 2024-01-26 14:59:51
  */
 import { getPluginData } from "./utils.js";
 const { createApp, ref } = await import('../cdnjs.cloudflare.com_ajax_libs_vue_3.3.4_vue.esm-browser.prod.min.js');
@@ -35,7 +35,11 @@ function init() {
                 const url = `${fastestUrl.value}${this.plugins[index].download}`;
                 const save_folder = `${LiteLoader.plugins[window.store_data.slug].path.data}/${window.store_data.save_folder}`;
                 this.plugins[index].install = await downloadFile(url, this.plugins[index].save_name, save_folder)
-                this.plugins[index].restart = "重启"
+                try {
+                    this.plugins[index].restart = await isSnippetRestart(window.store_data.slug, this.plugins[index].save_name)? "重启":false;
+                } catch (error) {
+                    this.plugins[index].restart = "重启"
+                }
             },
             restart(index) {
                 this.plugins[index].restart = "重启中"

@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-26 00:49:23
+ * @LastEditTime: 2024-01-26 14:44:59
  */
 // 运行在 Electron 主进程 下的插件入口
 
@@ -221,7 +221,7 @@ function onLoad() {
         }, 100);
         setTimeout(()=>clearInterval(Interval), 1500);
     });
-    // 外部打开网址
+    // 创建侧载商店
     ipcMain.on("LiteLoader.pluginStore.createBrowserWindow", (event, store) => {
         const newWindow = new BrowserWindow({
             //frame: false,
@@ -257,9 +257,9 @@ function onLoad() {
             });
         }
         // 在创建窗口时注入附加数据
-        newWindow.webContents.on('did-finish-load', () => {
-            newWindow.webContents.executeJavaScript(`window.store_data = ${store}`); // 传递数据
-            newWindow.webContents.executeJavaScript(`window.vueInit()`); // 初始化vue
+        newWindow.webContents.on('did-finish-load', async () => {
+            output(await newWindow.webContents.executeJavaScript(`window.store_data = ${store}`)); // 传递数据
+            output(await newWindow.webContents.executeJavaScript(`window.vueInit()`)); // 初始化vue
         });
         // 监听新窗口关闭事件
         newWindow.on('closed', () => {
@@ -273,5 +273,8 @@ function onLoad() {
     });
 }
 
+function output(...args) {
+    console.log("\x1b[32m[插件商店]\x1b[0m", ...args);
+}
 
 onLoad()

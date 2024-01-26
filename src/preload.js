@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:56:46
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-26 00:44:33
+ * @LastEditTime: 2024-01-26 14:58:35
  */
 // Electron 主进程 与 渲染进程 交互的桥梁
 const { contextBridge, ipcRenderer } = require("electron");
@@ -40,8 +40,10 @@ contextBridge.exposeInMainWorld("pluginStore", {
         store.slug = slug;
         ipcRenderer.send("LiteLoader.pluginStore.createBrowserWindow", JSON.stringify(store))
     },
-    onSnippetInstalled: (slug, file_name) => 
-        ipcRenderer.invoke(`LiteLoader.${slug}.onSnippetInstalled`, file_name),
+    isSnippetInstall: (slug, file_name) => 
+        ipcRenderer.invoke(`LiteLoader.${slug}.isSnippetInstall`, file_name),
+    isSnippetRestart: (slug, file_name) => 
+        ipcRenderer.invoke(`LiteLoader.${slug}.isSnippetRestart`, file_name),
     log: (level, ...serializedArgs) =>
             ipcRenderer.send("LiteLoader.pluginStore.log", level, ...serializedArgs),
     LiteLoader: () => {

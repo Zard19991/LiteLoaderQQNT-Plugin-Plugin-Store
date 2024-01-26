@@ -6,7 +6,7 @@
 import { measureSpeed } from "../renderer/reponse.js"
 import { plugins, gPlugins, fastestUrl } from "./setVue.js"
 
-const onSnippetInstalled = pluginStore.onSnippetInstalled;
+const isSnippetInstall = pluginStore.isSnippetInstall;
 
 async function getPluginData(store) {
     const urlsToTest = ['https://mirror.ghproxy.com/', 'https://ghproxy.net/', 'https://moeyy.cn/gh-proxy/', ''];
@@ -19,7 +19,7 @@ async function getPluginData(store) {
 
 async function fetchData(data) {
     try {
-        data.install = await onSnippetInstalled(window.store_data.slug, data.save_name)? "已安装":"安装";
+        data.install = await isSnippetInstall(window.store_data.slug, data.save_name)? "已安装":"安装";
     } catch (error) {
         data.install = "安装";
     }
