@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-24 01:04:31
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-26 16:13:07
+ * @LastEditTime: 2024-01-26 18:17:35
  */
 import { pluginsLoad } from "./api.js"
 import { measureSpeed } from "./reponse.js"
@@ -27,7 +27,7 @@ async function fetchData(plugin) {
     data.icon = data.icon
                 ? `${fastestUrl.value}https://raw.githubusercontent.com/${data.repository.repo}/${data.repository.branch}${data.icon.replace(".", "")}` 
                 : `${fastestUrl.value}https://raw.githubusercontent.com/Night-stars-1/LiteLoaderQQNT-Plugin-Plugin-Store/master/icon.png`;
-    data.install = "安装";
+    data.install = data?.repository?.release? "安装":"无法下载";
     data.update = "更新";
     data.restart = false;
     gPlugins.push(data)

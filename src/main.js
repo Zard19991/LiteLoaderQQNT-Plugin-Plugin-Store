@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:57:08
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-26 17:14:33
+ * @LastEditTime: 2024-01-26 18:14:06
  */
 // 运行在 Electron 主进程 下的插件入口
 
@@ -113,6 +113,7 @@ async function installPlugin(cache_file_path, slug) {
 }
 
 async function install(url, slug) {
+    output(url)
     try {
         const cache_file_path = await downloadPlugin(url, slug)
         return await installPlugin(cache_file_path, slug);
@@ -271,7 +272,6 @@ function onLoad() {
         });
         // 监听新窗口关闭事件
         newWindow.on('closed', () => {
-            newWindow.destroy();
             // console.log('窗口关闭')
         });
     });
