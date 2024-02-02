@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 23:23:35
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-24 18:13:54
+ * @LastEditTime: 2024-02-02 20:12:27
  */
 const ipcRenderer = pluginStore.ipcRenderer_LL;
 const ipcRenderer_on = pluginStore.ipcRenderer_LL_on;
@@ -58,8 +58,8 @@ ipcRenderer_on('message-main', (event, slug) => {
                 observer.disconnect();
             }
         }
-      });
-    observer.observe(document.querySelector(".nav-bar"), { subtree: true, attributes: true, attributeFilter: ['class'] });
+    });
+    observer.observe(document.querySelector(".nav-bar.liteloader"), { subtree: true, attributes: true, attributeFilter: ['class'] });
 });
 
 export {

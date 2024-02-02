@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-01-21 14:56:46
  * @LastEditors: Night-stars-1 nujj1042633805@gmail.com
- * @LastEditTime: 2024-01-26 14:58:35
+ * @LastEditTime: 2024-01-28 23:46:20
  */
 // Electron 主进程 与 渲染进程 交互的桥梁
 const { contextBridge, ipcRenderer } = require("electron");
@@ -36,6 +36,7 @@ contextBridge.exposeInMainWorld("pluginStore", {
         ipcRenderer.send("LiteLoader.pluginStore.createWin", message),
     createBrowserWindow: (slug) => {
         const LiteLoader = ipcRenderer.sendSync("LiteLoader.LiteLoader.LiteLoader")
+        console.log(JSON.stringify(LiteLoader))
         const store = LiteLoader.plugins[slug].manifest.store;
         store.slug = slug;
         ipcRenderer.send("LiteLoader.pluginStore.createBrowserWindow", JSON.stringify(store))
